@@ -11,7 +11,7 @@ SRCDIR = ./
 
 TARGET=pgcameradaemon
 
-_SRC = main.cpp network.cpp camera.cpp
+_SRC = main.cpp util.cpp
 SRC = $(_SRC:%=$(SRCDIR)%)
 OBJ = $(_SRC:%.cpp=$(BUILDDIR)%.o)
 
