@@ -1,15 +1,15 @@
 CC = g++
-INCLUDE = -I./lib/
-LINK = -L./lib/
-CFLAGS = -c -std=c++11 -Wall -O2 -fpic -g `pkg-config --cflags opencv`
+INCLUDE =
+LINK =
+CFLAGS = -c -std=c++11 -Wall -O2 -fpic -g
 LFLAGS =
-LIBS = -ldc1394 `pkg-config --libs opencv` -lpthread -lzmq
+LIBS = -lzmq
 
 BUILDDIR = ./build/
 BINDIR = ./
 SRCDIR = ./
 
-TARGET=pgcameradaemon
+TARGET=cloudstreamer
 
 _SRC = main.cpp util.cpp
 SRC = $(_SRC:%=$(SRCDIR)%)

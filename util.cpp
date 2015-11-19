@@ -1,3 +1,3 @@
 #include "util.h"
 
-bool verbose = true;
+bool verbose_flag = true;
