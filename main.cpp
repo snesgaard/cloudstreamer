@@ -31,25 +31,20 @@ int main(int argc, char ** argv) {
     error("Failed to create socket");
     return 1;
   }
-  char host[100];
+  char host[200];
   sprintf(host, "ipc:///tmp/datastream");
-  errguard(err, zmq_bind(socket, host));
+  errguard(err, zmq_setsockopt(socket, ZMQ_SUBSCRIBE, NULL, 0));
+  errguard(err, zmq_connect(socket, host));
   info("Created subscriber at host address %s", host);
   while (!terminate) {
-    info("Waiting for message");
     zmq_msg_t msg;
     errguard(err, zmq_msg_init(&msg));
-    int more;
-    size_t more_size;
-    int suberr = 0;
-    do {
-      errguard(suberr, zmq_recv(socket, &msg, 0));
-      errguard(suberr, zmq_getsockopt (socket, ZMQ_RCVMORE, &more, &more_size));
-    } while(more && !suberr);
-    info("Got message %lu", zmq_msg_size(&msg));
+    int size = zmq_msg_recv(&msg, socket, 0);
+    if (size != -1) {
+      info("Got message %s", (char *)zmq_msg_data(&msg));
+    }
     errguard(err, zmq_msg_close(&msg));
   }
-
   info("Releasing resources");
   errguard(err, zmq_close(socket));
   errguard(err, zmq_term(context));
