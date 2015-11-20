@@ -1,9 +1,10 @@
 CC = g++
-INCLUDE =
+INCLUDE = -I/usr/local/include/pcl-1.8/ -I/usr/include/eigen3/ -I/usr/include/vtk-5.8/
 LINK =
-CFLAGS = -c -std=c++11 -Wall -O2 -fpic -g
+CFLAGS = -c -std=c++11 -Wall -O3 -fpic -g
 LFLAGS =
-LIBS = -lzmq
+LIBS = -lzmq -lboost_thread -lboost_system -lpcl_visualization -lpcl_common \
+				-lvtkCommon -lvtkFiltering -lvtkRendering
 
 BUILDDIR = ./build/
 BINDIR = ./
