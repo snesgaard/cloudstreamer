@@ -165,6 +165,7 @@ int main(int argc, char ** argv) {
   auto viewer = pcl::visualization::PCLVisualizer("3D Viewer");
   viewer.addCoordinateSystem(1.0);
   viewer.initCameraParameters();
+  viewer.setCameraPosition(-10, 0, 0, 1, 0, 0);
   pcl::PointCloud<pcl::PointXYZ>::Ptr frontcloud(
     new pcl::PointCloud<pcl::PointXYZ>
   );
@@ -187,10 +188,11 @@ int main(int argc, char ** argv) {
   {
     auto status = cloudfuture.wait_for(std::chrono::milliseconds(16));
     if (status == std::future_status::ready) {
-      viewer.removePointCloud(cloudkey);
       backcloud = frontcloud;
       frontcloud = cloudfuture.get();
-      viewer.addPointCloud(frontcloud, cloudkey);
+      // viewer.removePointCloud(cloudkey);
+      // viewer.addPointCloud(frontcloud, cloudkey);
+      viewer.updatePointCloud(frontcloud, cloudkey);
       cloudfuture = std::async(
         std::launch::async, recv_cloud_begin, socket, backcloud
       );

@@ -47,8 +47,8 @@ def sinedata(t, pcount):
 #print "sending x",x,"as",x.tostring()
 phase = 0
 while True:
-    data = createdata(1000)#sinedata(phase, 200)
-    phase = phase + 0.01
+    data = sinedata(phase, 200)
+    phase = phase + 0.002
     #print(data.shape[0])
     #print("requesting")
     sock.send("upload")
