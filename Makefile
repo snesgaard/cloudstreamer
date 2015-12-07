@@ -12,7 +12,7 @@ SRCDIR = ./
 
 TARGET=cloudstreamer
 
-_SRC = main.cpp util.cpp
+_SRC = main.cpp util.cpp network.cpp
 SRC = $(_SRC:%=$(SRCDIR)%)
 OBJ = $(_SRC:%.cpp=$(BUILDDIR)%.o)
 

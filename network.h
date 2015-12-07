@@ -5,18 +5,19 @@
 
 #include <map>
 #include <string>
+#include <chrono>
 
 struct TransferState{
   int next_chunk;
-  double last_active;
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
+  std::chrono::duration::milliseconds last_active;
 };
 
 typedef std::map<std::string, TransferState *> StateMap;
 typedef std::map<std::string, pcl::PointCloud<pcl::PointXYZ>::Ptr> CloudMap;
 
 int fetch_clouds(
-  void * socket, const StateMap * smap, const CloudMap * cmap, int * termflag
+  void * socket, const StateMap * smap, const CloudMap const * cmap_in,
+  const CloudMap * cmap_out, int * termflag
 );
 
 
