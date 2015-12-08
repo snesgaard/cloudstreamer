@@ -60,7 +60,9 @@ static int act(
   }
   // Now proceed to interpreting commands if we are not transfering
   if (!strcmp(upload_request.c_str(), data)) {
-    // Allocate new pointcloud
+    cmap_in[id] = pcl::PointCloud<pcl::PointXYZ>::Ptr(
+      new pcl::PointCloud<pcl::PointXYZ>
+    );
     // Send transfer credit
   } else {
     info("Retrieved unsupported command from client");
