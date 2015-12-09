@@ -9,16 +9,17 @@
 #include <pcl/common/common_headers.h>
 
 struct TransferState{
+  TransferState();
   int next_chunk;
-  // std::chrono::duration::milliseconds last_active; Make timout timer here
+  // Insert timeouts here
 };
 
 typedef std::map<std::string, TransferState *> StateMap;
 typedef std::map<std::string, pcl::PointCloud<pcl::PointXYZ>::Ptr> CloudMap;
 
 int fetch_clouds(
-  void * socket, const StateMap * smap, const CloudMap * cmap_in,
-  const CloudMap * cmap_out, int * termflag
+  void * socket, StateMap * smap, CloudMap * cmap_in, CloudMap * cmap_out,
+  volatile int * termflag
 );
 
 

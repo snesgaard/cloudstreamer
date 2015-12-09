@@ -47,7 +47,8 @@ def sinedata(t, pcount):
 #print "sending x",x,"as",x.tostring()
 phase = 0
 while True:
-    data = sinedata(phase, 200)
+    print "Uploading"
+    data = sinedata(phase, 201)
     phase = phase + 0.002
     #print(data.shape[0])
     #print("requesting")
@@ -58,6 +59,7 @@ while True:
         pstart = np.fromstring(pstart, "int32", 1)[0] * 3
         size = np.fromstring(size, "int32", 1)[0] * 3
         pend = pstart + size
+        #print("sending", pstart, pend, data.shape[0])
         if pstart < 0:
             break
         elif pstart <= data.shape[0]:

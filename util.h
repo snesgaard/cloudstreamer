@@ -9,7 +9,6 @@
 
 extern bool verbose_flag;
 
-#define debug(M, args...) printf("DEBUG %s:%d: " M "\n", __FILE__, __LINE__, args)
 #define info(M, ...) {\
   syslog(LOG_INFO, "INFO %s:%d: " M "\n", __FILE__, __LINE__, ##__VA_ARGS__);\
   if (verbose_flag)\
