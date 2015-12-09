@@ -51,7 +51,7 @@ int main(int argc, char ** argv) {
   //errguard(err, zmq_setsockopt(socket, ZMQ_SUBSCRIBE, NULL, 0));
   int linger = 100;
   errguard(err, zmq_setsockopt(socket, ZMQ_LINGER, &linger, sizeof(linger)));
-  errguard(err, zmq_connect(socket, host));
+  errguard(err, zmq_bind(socket, host));
 
   info("Created subscriber at host address %s", host);
   auto viewer = pcl::visualization::PCLVisualizer("3D Viewer");
@@ -75,10 +75,12 @@ int main(int argc, char ** argv) {
     auto status = future_err.wait_for(std::chrono::milliseconds(16));
     if (status == std::future_status::ready) {
       for (auto it = cmap_out.begin(); it != cmap_out.end(); it++) {
-        //info("inserting %u", it->first.size());
         //viewer.updatePointCloud(it->second, it->first);
-        viewer.removePointCloud(it->first);
-        viewer.addPointCloud(it->second, it->first);
+        //viewer.removePointCloud(it->first);
+        if (!viewer.updatePointCloud(it->second, it->first)) {
+          //info("inserting %s", it->first.c_str());
+          viewer.addPointCloud(it->second, it->first);
+        }
       }
       cmap_out.clear();
       future_err = std::async(
@@ -86,7 +88,7 @@ int main(int argc, char ** argv) {
         &terminate
       );
     }
-    viewer.spinOnce (100);
+    viewer.spinOnce(20);
   }
   terminate = true;
   info("Releasing resources");

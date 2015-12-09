@@ -4,6 +4,7 @@
 #include <zmq.h>
 
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <chrono>
 #include <pcl/common/common_headers.h>
@@ -14,8 +15,8 @@ struct TransferState{
   // Insert timeouts here
 };
 
-typedef std::map<std::string, TransferState *> StateMap;
-typedef std::map<std::string, pcl::PointCloud<pcl::PointXYZ>::Ptr> CloudMap;
+typedef std::unordered_map<std::string, TransferState *> StateMap;
+typedef std::unordered_map<std::string, pcl::PointCloud<pcl::PointXYZ>::Ptr> CloudMap;
 
 int fetch_clouds(
   void * socket, StateMap * smap, CloudMap * cmap_in, CloudMap * cmap_out,
