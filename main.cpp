@@ -78,7 +78,6 @@ int main(int argc, char ** argv) {
         //viewer.updatePointCloud(it->second, it->first);
         //viewer.removePointCloud(it->first);
         if (!viewer.updatePointCloud(it->second, it->first)) {
-          //info("inserting %s", it->first.c_str());
           viewer.addPointCloud(it->second, it->first);
         }
       }

@@ -59,7 +59,7 @@ phase = 0
 last = time.time()
 try:
     while True:
-        #print "Uploading", time.time() - last
+        print "Uploading", time.time() - last
         last = time.time()
         data = sinedata(phase, 201)
         phase = phase + 0.002

@@ -1,5 +1,5 @@
 CC = g++
-INCLUDE = -I/usr/local/include/pcl-1.8/ -I/usr/include/eigen3/ -I/usr/include/vtk-5.8/
+INCLUDE = -I/usr/local/include/pcl-1.7/ -I/usr/include/eigen3/ -I/usr/include/vtk-5.8/
 LINK = -L/usr/local/lib/
 CFLAGS = -c -std=c++11 -Wall -O3 -fpic -g
 LFLAGS =
