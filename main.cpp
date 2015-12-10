@@ -50,7 +50,7 @@ int main(int argc, char ** argv) {
   errguard(err, zmq_setsockopt(socket, ZMQ_LINGER, &linger, sizeof(linger)));
   errguard(err, zmq_bind(socket, host));
 
-  info("Created subscriber at host address %s", host);
+  info("Opening data stream at host address %s", host);
   auto viewer = pcl::visualization::PCLVisualizer("3D Viewer");
   viewer.addCoordinateSystem(1.0);
   viewer.initCameraParameters();
@@ -80,6 +80,7 @@ int main(int argc, char ** argv) {
       for (auto it = cmap_tmp.begin(); it != cmap_tmp.end(); it++) {
         //viewer.updatePointCloud(it->second, it->first);
         //viewer.removePointCloud(it->first);
+
         if (!viewer.updatePointCloud(it->second, it->first)) {
           viewer.addPointCloud(it->second, it->first);
         }

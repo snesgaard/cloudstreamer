@@ -58,16 +58,17 @@ def sinedata(t, pcount):
 phase = 0
 last = time.time()
 try:
+    data = sinedata(phase, 1000)
     while True:
         print "Uploading", time.time() - last
         last = time.time()
-        data = sinedata(phase, 201)
+        #data = sinedata(phase, 1000)
         phase = phase + 0.002
         #print(data.shape)
         #print("requesting")
         sock.send("upload")
         while True:
-            msg = sock.recv_multipart(flags = zmq.DONTWAIT)
+            msg = sock.recv_multipart()
             pstart, size = msg
             pstart = np.fromstring(pstart, "int32", 1)[0] * 3
             size = np.fromstring(size, "int32", 1)[0] * 3
