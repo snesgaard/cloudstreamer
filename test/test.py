@@ -67,7 +67,7 @@ try:
         #print("requesting")
         sock.send("upload")
         while True:
-            msg = sock.recv_multipart()
+            msg = sock.recv_multipart(flags = zmq.DONTWAIT)
             pstart, size = msg
             pstart = np.fromstring(pstart, "int32", 1)[0] * 3
             size = np.fromstring(size, "int32", 1)[0] * 3
