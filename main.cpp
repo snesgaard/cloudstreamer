@@ -21,9 +21,6 @@
 #include "network.h"
 #include "util.h"
 
-const int servercredit = 10;
-const int pchunk = 10000;
-
 static volatile int terminate = 0;
 // Interrupt handling should probably be done more cleverly.
 // This will do for now
@@ -74,20 +71,21 @@ int main(int argc, char ** argv) {
   {
     auto status = future_err.wait_for(std::chrono::milliseconds(16));
     if (status == std::future_status::ready) {
-      for (auto it = cmap_out.begin(); it != cmap_out.end(); it++) {
+      auto cmap_tmp = cmap_out;
+      cmap_out.clear();
+      future_err = std::async(
+        std::launch::async, fetch_clouds, socket, &smap, &cmap_in, &cmap_out,
+        &terminate
+      );
+      for (auto it = cmap_tmp.begin(); it != cmap_tmp.end(); it++) {
         //viewer.updatePointCloud(it->second, it->first);
         //viewer.removePointCloud(it->first);
         if (!viewer.updatePointCloud(it->second, it->first)) {
           viewer.addPointCloud(it->second, it->first);
         }
       }
-      cmap_out.clear();
-      future_err = std::async(
-        std::launch::async, fetch_clouds, socket, &smap, &cmap_in, &cmap_out,
-        &terminate
-      );
     }
-    viewer.spinOnce(20);
+    viewer.spinOnce(5);
   }
   terminate = true;
   info("Releasing resources");
