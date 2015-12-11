@@ -11,6 +11,7 @@ static char id_msg[idsize + 1];
 static char data_msg[maxdatasize];
 // Commands
 const std::string upload_request = "upload";
+const std::string uploadrgb_request = "uploadrgb"
 const std::string extrinsic_request = "extrinsic";
 
 TransferState::TransferState(){

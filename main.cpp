@@ -86,7 +86,7 @@ int main(int argc, char ** argv) {
         }
       }
     }
-    viewer.spinOnce(5);
+    viewer.spinOnce();
   }
   terminate = true;
   info("Releasing resources");
