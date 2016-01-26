@@ -11,7 +11,7 @@ static char id_msg[idsize + 1];
 static char data_msg[maxdatasize];
 // Commands
 const std::string upload_request = "upload";
-const std::string uploadrgb_request = "uploadrgb"
+const std::string uploadrgb_request = "uploadrgb";
 const std::string extrinsic_request = "extrinsic";
 
 TransferState::TransferState(){
@@ -34,16 +34,16 @@ static int add_data(
   std::string id, const char * data, const int data_size
 ) {
   const int psize = 3 * sizeof(float);
-
   auto it = cmap_in->find(id);
   if (it == cmap_in->end()) return 1;
   auto cloud = it->second;
-
+  // info("sizes %i %i %i %i", data_size, psize, data_size / psize, chunksize);
   for (int i = psize; i <= data_size; i += psize) {
+    //info("%i %i", i, data_size);
     float * fdata = (float *)(data + i - psize);
+    //info("%f %f %f", fdata[0], fdata[1], fdata[2]);
     cloud->push_back(pcl::PointXYZ(fdata[0], fdata[1], fdata[2]));
   }
-  //info("sizes %i %i %i %i", data_size, psize, data_size / psize, chunksize);
   if (data_size / psize < chunksize) {
     // Move cloud to out map and set state indicating we have finizes transfering
     cmap_in->erase(it);
@@ -118,6 +118,7 @@ int fetch_clouds(
     // id_msg.resize(size);
     memset(data_msg, 0, maxcmdsize + 1);
     dsize = zmq_recv(socket, data_msg, maxdatasize, ZMQ_DONTWAIT);
+    // info("got data %i", dsize);
     if (dsize == -1) break;
     // MAybe error guard here
     err = act(

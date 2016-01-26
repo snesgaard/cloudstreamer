@@ -31,7 +31,9 @@ def connect(identity = None, host = "ipc:///tmp/datastream", context = None):
 # [xn yn zn]
 def send(cloudstream, data, timeout = 0.25):
     sock = cloudstream.socket
-    data = data.reshape(-1)
+    #print data.shape
+    data = data.reshape(-1, 1)
+    #print data.shape
     sock.send("upload")
     alive = time.time()
     while time.time() - alive < timeout:
@@ -46,7 +48,10 @@ def send(cloudstream, data, timeout = 0.25):
             if pstart < 0:
                 return True
             elif pstart <= data.shape[0]:
+                #print data.shape, data.dtype, pstart, pend
+                #print "subdata", data[pstart:min(data.shape[0], pend)].shape
                 chunk = data[pstart:min(data.shape[0], pend)].tostring()
+                #print len(chunk)
                 sock.send(chunk)
             alive = time.time()
         except zmq.error.Again:
